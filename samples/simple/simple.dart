@@ -33,17 +33,13 @@ GameWindow gameWindow;
 void goFullscreen(_)
 {
   gameWindow.isFullscreen = true;
-  //gameWindow.isMouseVisible = false;
+  gameWindow.isMouseVisible = false;
 }
 
 void main()
 {
   gameWindow = new GameWindow('#game', 640, 480);
-  gameWindow.cursor = new Cursor('warcraft.cur');
   
   ButtonElement button = document.query('#fullscreen');
   button.on.click.add(goFullscreen);
-  
-  CanvasElement canvas = document.query('#game');
-  print('${canvas.style.cursor}');
 }
