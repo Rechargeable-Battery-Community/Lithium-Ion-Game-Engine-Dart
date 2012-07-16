@@ -31,23 +31,77 @@
 class GameWindow implements IDisposable
 {
   CanvasElement _canvas;
+  Cursor _cursor;
+  int _previousWidth;
+  int _previousHeight;
   
-  GameWindow(String id)
+  GameWindow(String id, int width, int height)
   {
     _canvas = document.query(id);
     
-    if (_canvas != null)
+    assert(_canvas != null);
+    
+    _canvas.width = width;
+    _canvas.height = height;
+    
+    // Set the cursor to the default
+    cursor = Cursor.auto;
+    
+    // Create hooks for inputs
+    Mouse._onInitialize(_canvas);
+  }
+  
+  bool get isFullscreen() => _canvas == document.webkitFullscreenElement;
+  set isFullscreen(bool value)
+  {
+    bool isElementFullscreen = isFullscreen;
+    
+    if (value != isElementFullscreen)
     {
-      // Create hooks for mouse events
-      Mouse._onInitialize();
-      
-      _canvas.on.mouseMove.add(Mouse._onMouseMove);
-      _canvas.on.mouseDown.add(Mouse._onMouseDown);
-      _canvas.on.mouseUp.add(Mouse._onMouseUp);
-      _canvas.on.mouseWheel.add(Mouse._onMouseWheel);
-      
-      // Create hooks for keyboard events
+      if (value)
+      {
+        _previousWidth = _canvas.width;
+        _previousHeight = _canvas.height;
+        
+        _canvas.on.fullscreenChange.add(_onFullscreenChange);
+        _canvas.on.fullscreenError.add(_onFullscreenError);
+        
+        _canvas.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+      }
+      else
+      {
+        document.webkitCancelFullScreen();
+      }
     }
+  }
+  
+  bool get isMouseVisible() => _canvas != document.webkitPointerLockElement;
+  set isMouseVisible(bool value)
+  {
+    bool isElementPointerLocked = isMouseVisible;
+    
+    if (value != isElementPointerLocked)
+    {
+      if (value)
+        document.webkitExitPointerLock();
+      else
+        _canvas.webkitRequestPointerLock();
+    }
+  }
+  
+  Cursor get cursor() => _cursor;
+  set cursor(Cursor value)
+  {
+    _cursor = value;
+    
+    String source = value.source;
+    
+    // Check to see if the source contains a period
+    // Assume its a custom cursor if this is the case
+    if (source.lastIndexOf('.') != -1)
+      _canvas.style.cursor = 'url(${source}), auto';
+    else
+      _canvas.style.cursor = '${source} auto';
   }
   
   /**
@@ -57,15 +111,43 @@ class GameWindow implements IDisposable
   {
     if (_canvas != null)
     {
-      // Remove hooks for mouse event
-      _canvas.on.mouseMove.remove(Mouse._onMouseMove);
-      _canvas.on.mouseDown.remove(Mouse._onMouseDown);
-      _canvas.on.mouseUp.remove(Mouse._onMouseUp);
-      _canvas.on.mouseWheel.remove(Mouse._onMouseWheel);
-      
-      Mouse._onTerminate();
-      
-      // Remove hooks for keyboard events
+      // Remove hooks for inputs
+      Mouse._onTerminate(_canvas);
     }
+  }
+  
+  void _resize(int width, int height)
+  {
+    _canvas.width = width;
+    _canvas.height = height;
+    
+    // Notify the game that the canvas is resized
+  }
+  
+  void _removeFullscreenEvents()
+  {
+    _canvas.on.fullscreenChange.remove(_onFullscreenChange);
+    _canvas.on.fullscreenError.remove(_onFullscreenError);
+  }
+  
+  void _onFullscreenChange(_)
+  {
+    if (isFullscreen)
+    {
+      Screen screen = window.screen;
+      
+      _resize(screen.width, screen.height);
+    }
+    else
+    {
+      _resize(_previousWidth, _previousHeight);
+      
+      _removeFullscreenEvents();
+    }
+  }
+  
+  void _onFullscreenError(_)
+  {
+    _removeFullscreenEvents();
   }
 }

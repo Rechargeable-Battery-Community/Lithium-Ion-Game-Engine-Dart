@@ -55,13 +55,25 @@ class Mouse
   // Private methods
   //---------------------------------------------------------------------
   
-  static void _onInitialize()
+  static void _onInitialize(CanvasElement canvas)
   {
     _mouseState = new MouseState();
+    
+    // Add hooks for mouse events
+    canvas.on.mouseMove.add(_onMouseMove);
+    canvas.on.mouseDown.add(_onMouseDown);
+    canvas.on.mouseUp.add(_onMouseUp);
+    canvas.on.mouseWheel.add(_onMouseWheel);
   }
   
-  static void _onTerminate()
+  static void _onTerminate(CanvasElement canvas)
   {
+    // Remove hooks for mouse events
+    canvas.on.mouseMove.remove(_onMouseMove);
+    canvas.on.mouseDown.remove(_onMouseDown);
+    canvas.on.mouseUp.remove(_onMouseUp);
+    canvas.on.mouseWheel.remove(_onMouseWheel);
+    
     _mouseState = null;
   }
 
@@ -71,6 +83,7 @@ class Mouse
   static void _onMouseMove(MouseEvent event)
   {
     _mouseState._setMousePosition(event.clientX, event.clientY);
+    //print('${_mouseState.x} ${_mouseState.y} ${event.webkitMovementX} ${event.webkitMovementY}');
   }
 
   /**

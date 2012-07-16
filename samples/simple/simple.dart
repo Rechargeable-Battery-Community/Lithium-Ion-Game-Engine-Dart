@@ -26,10 +26,24 @@
  */
 
 #import('../../lib/lithium.dart');
+#import('dart:html');
 
-GameWindow window;
+GameWindow gameWindow;
+
+void goFullscreen(_)
+{
+  gameWindow.isFullscreen = true;
+  //gameWindow.isMouseVisible = false;
+}
 
 void main()
 {
-  window = new GameWindow('#game');
+  gameWindow = new GameWindow('#game', 640, 480);
+  gameWindow.cursor = new Cursor('warcraft.cur');
+  
+  ButtonElement button = document.query('#fullscreen');
+  button.on.click.add(goFullscreen);
+  
+  CanvasElement canvas = document.query('#game');
+  print('${canvas.style.cursor}');
 }

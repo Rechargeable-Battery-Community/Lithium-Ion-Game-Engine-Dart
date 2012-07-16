@@ -30,13 +30,16 @@
  */
 class Cursor
 {
+  /// The default cursor.
+  static final Cursor auto = const Cursor('auto');
+  
   /// Path to the cursor's image.
-  String _source;
+  final String _source;
   
   /**
    * Initializes a new instance of the [Cursor] class from the specified [source].
    */
-  Cursor(String source);
+  const Cursor(String this._source);
   
   /// Path to the cursor's image.
   String get source() => _source;
