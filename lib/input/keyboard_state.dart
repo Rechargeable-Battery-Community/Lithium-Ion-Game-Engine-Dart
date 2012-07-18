@@ -25,48 +25,7 @@
  *   distribution.
  */
 
-class Game
+class KeyboardState
 {
-  static Game instance;
-  
-  /// The [GameWindow] associated with the [Game].
-  GameWindow _gameWindow;
-
-  Game();
-  
-  void update(int time)
-  {
-    
-  }
-  
-  void resize(int width, int height)
-  {
-    print('resize: ${width}x${height}');
-  }
-  
-  GameWindow get gameWindow() => _gameWindow;
-  
-  //---------------------------------------------------------------------
-  // Static methods
-  //---------------------------------------------------------------------
-
-  static void _onInitialize()
-  {
-    // Load the game settings
-    GameSettings settings = new GameSettings('#settings');
-    
-    // Create the game instance
-    instance = new Game();
-    instance._gameWindow = new GameWindow('#game', settings.width, settings.height);
-  }
-  
-  static void _onUpdate(int time)
-  {
-    instance.update(time);
-  }
-  
-  static void _onResize(int width, int height)
-  {
-    instance.resize(width, height);
-  }
+  KeyboardState();
 }

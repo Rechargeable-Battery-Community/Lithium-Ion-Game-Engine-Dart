@@ -55,24 +55,30 @@ class Mouse
   // Private methods
   //---------------------------------------------------------------------
   
-  static void _onInitialize(CanvasElement canvas)
+  /**
+   * Adds mouse hooks to the specified [element].
+   */
+  static void _onInitialize(Element element)
   {
     _mouseState = new MouseState();
     
     // Add hooks for mouse events
-    canvas.on.mouseMove.add(_onMouseMove);
-    canvas.on.mouseDown.add(_onMouseDown);
-    canvas.on.mouseUp.add(_onMouseUp);
-    canvas.on.mouseWheel.add(_onMouseWheel);
+    element.on.mouseMove.add(_onMouseMove);
+    element.on.mouseDown.add(_onMouseDown);
+    element.on.mouseUp.add(_onMouseUp);
+    element.on.mouseWheel.add(_onMouseWheel);
   }
   
-  static void _onTerminate(CanvasElement canvas)
+  /**
+   * Removes mouse hooks from the specified [element].
+   */
+  static void _onTerminate(Element element)
   {
     // Remove hooks for mouse events
-    canvas.on.mouseMove.remove(_onMouseMove);
-    canvas.on.mouseDown.remove(_onMouseDown);
-    canvas.on.mouseUp.remove(_onMouseUp);
-    canvas.on.mouseWheel.remove(_onMouseWheel);
+    element.on.mouseMove.remove(_onMouseMove);
+    element.on.mouseDown.remove(_onMouseDown);
+    element.on.mouseUp.remove(_onMouseUp);
+    element.on.mouseWheel.remove(_onMouseWheel);
     
     _mouseState = null;
   }
@@ -92,13 +98,13 @@ class Mouse
   static void _onMouseDown(MouseEvent event)
   {
     _mouseState._setMouseButtonState(event.button, ButtonState.Pressed);
-  }  
+  }
   
   /**
    * Callback for when a mouse button is released.
    */
   static void _onMouseUp(MouseEvent event)
-  {    
+  {
     _mouseState._setMouseButtonState(event.button, ButtonState.Released);
   }
   

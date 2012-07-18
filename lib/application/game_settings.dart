@@ -25,48 +25,59 @@
  *   distribution.
  */
 
-class Game
+class GameSettings
 {
-  static Game instance;
+  static final int _defaultWidth = 640;
+  static final int _defaultHeight = 480;
   
-  /// The [GameWindow] associated with the [Game].
-  GameWindow _gameWindow;
-
-  Game();
+  int _width;
+  int _height;
   
-  void update(int time)
+  GameSettings(String id)
   {
+    ScriptElement script = document.query(id) as ScriptElement;
     
+    if ((script == null) || (script.type != 'application/json'))
+    {
+      _setDefaults();
+    }
+    else
+    {
+      _readJSON(script.innerHTML);
+    }
   }
   
-  void resize(int width, int height)
+  GameSettings.fromJSON(String json)
   {
-    print('resize: ${width}x${height}');
+    _readJSON(json);
   }
   
-  GameWindow get gameWindow() => _gameWindow;
+  int get width() => _width;
+  int get height() => _height;
   
-  //---------------------------------------------------------------------
-  // Static methods
-  //---------------------------------------------------------------------
-
-  static void _onInitialize()
+  void _readJSON(String json)
   {
-    // Load the game settings
-    GameSettings settings = new GameSettings('#settings');
+    Map settings = JSON.parse(json) as Map;
     
-    // Create the game instance
-    instance = new Game();
-    instance._gameWindow = new GameWindow('#game', settings.width, settings.height);
+    if (settings != null)
+    {
+      // Get width
+      int widthValue = settings['width'];
+      _width = (widthValue != null) ? widthValue : _defaultWidth;
+      
+      // Get height
+      int heightValue = settings['height'];
+      _height = (heightValue != null) ? heightValue : _defaultHeight;
+    }
+    else
+    {
+      _setDefaults();
+    }
   }
   
-  static void _onUpdate(int time)
+  void _setDefaults()
   {
-    instance.update(time);
-  }
-  
-  static void _onResize(int width, int height)
-  {
-    instance.resize(width, height);
+    _width = _defaultWidth;
+    _height = _defaultHeight;
   }
 }

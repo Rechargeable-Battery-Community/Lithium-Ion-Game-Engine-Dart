@@ -28,17 +28,17 @@
 #import('../../lib/lithium.dart');
 #import('dart:html');
 
-GameWindow gameWindow;
-
 void goFullscreen(_)
 {
+  GameWindow gameWindow = Game.instance.gameWindow;
+  
   gameWindow.isFullscreen = true;
   gameWindow.isMouseVisible = false;
 }
 
 void main()
 {
-  gameWindow = new GameWindow('#game', 640, 480);
+  initializeLithiumIonEngine();
   
   ButtonElement button = document.query('#fullscreen');
   button.on.click.add(goFullscreen);
