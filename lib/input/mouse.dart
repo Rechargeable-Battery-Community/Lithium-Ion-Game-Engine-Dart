@@ -37,16 +37,16 @@ class Mouse
    * The current state of the [Mouse].
    * 
    * Returns a new instance of the [MouseState]. Use
-   * [getMouseState] if creating garbage is a concern.
+   * [copyMouseState] if creating garbage is a concern.
    */
-  static MouseState get mouseState() => _mouseState.clone();
+  static MouseState get mouseState => _mouseState.clone();
   
   /**
    * Gets the current state of the [Mouse].
    * 
    * Copies the values into [mouseState].
    */
-  static void getMouseState(MouseState mouseState)
+  static void copyMouseState(MouseState mouseState)
   {
     _mouseState.cloneTo(mouseState);
   }

@@ -32,6 +32,7 @@ class GameWindow implements IDisposable
 {
   DivElement _div;
   CanvasElement _canvas;
+  WebGLRenderingContext _context;
   Cursor _cursor;
   int _previousWidth;
   int _previousHeight;
@@ -40,6 +41,9 @@ class GameWindow implements IDisposable
   {
     _div = document.query(id);
     _div.elements.clear();
+    
+    _div.style.width = '${width}px';
+    _div.style.height = '${height}px';
     
     assert(_div != null);
     
@@ -60,7 +64,7 @@ class GameWindow implements IDisposable
     window.requestAnimationFrame(_updateLoop);
   }
   
-  bool get isFullscreen() => _div == document.webkitFullscreenElement;
+  bool get isFullscreen => _div == document.webkitFullscreenElement;
   set isFullscreen(bool value)
   {
     bool isElementFullscreen = isFullscreen;
@@ -84,7 +88,17 @@ class GameWindow implements IDisposable
     }
   }
   
-  bool get isMouseVisible() => _div != document.webkitPointerLockElement;
+  WebGLRenderingContext get context
+  {
+    if (_context == null)
+    {
+      _context = _canvas.getContext('experimental-webgl');
+    }
+    
+    return _context;
+  }
+  
+  bool get isMouseVisible => _div != document.webkitPointerLockElement;
   set isMouseVisible(bool value)
   {
     bool isElementPointerLocked = isMouseVisible;
@@ -98,7 +112,7 @@ class GameWindow implements IDisposable
     }
   }
   
-  Cursor get cursor() => _cursor;
+  Cursor get cursor => _cursor;
   set cursor(Cursor value)
   {
     _cursor = value;
@@ -125,14 +139,23 @@ class GameWindow implements IDisposable
   
   void _resize(int width, int height, [bool sendEvent = true])
   {
-    _div.style.width = '${width}px';
-    _div.style.height = '${height}px';
+    String widthPixels = '${width}px';
+    String heightPixels = '${height}px';
+    
+    _div.style.width = widthPixels;
+    _div.style.height = heightPixels;
+    
+    _canvas.style.width = widthPixels;
+    _canvas.style.height = heightPixels;
     
     _canvas.width = width;
     _canvas.height = height;
     
     // Notify the game that the canvas is resized
-    Game._onResize(width, height);
+    if (sendEvent)
+    {
+      Game._onResize(width, height);
+    }
   }
   
   void _removeFullscreenEvents()

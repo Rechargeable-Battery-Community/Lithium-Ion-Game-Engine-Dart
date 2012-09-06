@@ -25,59 +25,18 @@
  *   distribution.
  */
 
-class GameSettings
+class ServiceLocator
 {
-  static final int _defaultWidth = 640;
-  static final int _defaultHeight = 480;
+  /// The [GraphicsDevice] associated with the game.
+  static Device _graphicsDevice;
   
-  int _width;
-  int _height;
+  static Device get graphicsDevice => _graphicsDevice;
   
-  GameSettings(String id)
+  /**
+   * Registers the GraphicsDevice.
+   */
+  static void _registerGraphicsDevice(Device value)
   {
-    ScriptElement script = document.query(id) as ScriptElement;
-    
-    if ((script == null) || (script.type != 'application/json'))
-    {
-      _setDefaults();
-    }
-    else
-    {
-      _readJSON(script.innerHTML);
-    }
-  }
-  
-  GameSettings.fromJSON(String json)
-  {
-    _readJSON(json);
-  }
-  
-  int get width => _width;
-  int get height => _height;
-  
-  void _readJSON(String json)
-  {
-    Map settings = JSON.parse(json) as Map;
-    
-    if (settings != null)
-    {
-      // Get width
-      int widthValue = settings['width'];
-      _width = (widthValue != null) ? widthValue : _defaultWidth;
-      
-      // Get height
-      int heightValue = settings['height'];
-      _height = (heightValue != null) ? heightValue : _defaultHeight;
-    }
-    else
-    {
-      _setDefaults();
-    }
-  }
-  
-  void _setDefaults()
-  {
-    _width = _defaultWidth;
-    _height = _defaultHeight;
+    _graphicsDevice = value;
   }
 }

@@ -52,32 +52,32 @@ class MouseState implements IClonable
   /**
    * The horizontal position of the mouse cursor.
    */
-  int get x() => _xPosition;
+  int get x => _xPosition;
   
   /**
    * The vertical position of the mouse cursor.
    */
-  int get y() => _yPosition;
+  int get y => _yPosition;
   
   /**
    * The cumulative mouse scroll wheel value since the game was started.
    */
-  int get scrollWheelValue() => _scrollWheelValue;
+  int get scrollWheelValue => _scrollWheelValue;
   
   /**
    * The state of the left mouse button.
    */
-  ButtonState get leftButton() => _buttons[MouseButtons.Left.value];
+  ButtonState get leftButton => _buttons[MouseButtons.Left.value];
   
   /**
    * The state of the middle mouse button.
    */
-  ButtonState get middleButton() => _buttons[MouseButtons.Middle.value];  
+  ButtonState get middleButton => _buttons[MouseButtons.Middle.value];  
   
   /**
    * The state of the right mouse button.
    */
-  ButtonState get rightButton() => _buttons[MouseButtons.Right.value];
+  ButtonState get rightButton => _buttons[MouseButtons.Right.value];
     
   //---------------------------------------------------------------------
   // IClonable methods

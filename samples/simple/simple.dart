@@ -26,20 +26,61 @@
  */
 
 #import('../../lib/lithium.dart');
+#import('../../external/Spectre/lib/spectre.dart');
+#import('../../external/Spectre/lib/spectre_scene.dart');
+#import('../../external/Spectre/external/DartVectorMath/lib/vector_math_html.dart');
 #import('dart:html');
+
+class SimpleGameView extends GameView
+{
+  List<GameEntity> _entities;
+  TransformGraph _transformGraph;
+  
+  SimpleGameView()
+    : super()
+    , _entities = new List<GameEntity>()
+    , _transformGraph = new TransformGraph(16);
+  
+  void initialize()
+  {
+    _addCube(new vec3());
+    _addCube(new vec3(-5.0, 0.0, 0.0));
+    _addCube(new vec3( 5.0, 0.0, 0.0));
+    
+    _transformGraph.updateGraph();
+  }
+  
+  void update()
+  {
+    _transformGraph.updateWorldMatrices();
+  }
+  
+  void _addCube(vec3 position)
+  {
+    GameEntity entity = new GameEntity();
+    Transform transform = new Transform(_transformGraph);
+    transform.position = position;
+    
+    _entities.add(entity);
+  }
+}
 
 void goFullscreen(_)
 {
   GameWindow gameWindow = Game.instance.gameWindow;
   
   gameWindow.isFullscreen = true;
-  gameWindow.isMouseVisible = false;
+  //gameWindow.isMouseVisible = false;
 }
 
 void main()
 {
   initializeLithiumIonEngine();
   
+  SimpleGameView gameView = new SimpleGameView();
+  Game.instance.gameView = gameView;
+  gameView.initialize();
+    
   ButtonElement button = document.query('#fullscreen');
   button.on.click.add(goFullscreen);
 }

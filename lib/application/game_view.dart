@@ -1,10 +1,10 @@
 /**
- * Lithium-Ion Game Engine
+ * \file entity.dart
  *
- * ---------------------------------------------------------------------
+ * \section COPYRIGHT
  *
- * Copyright (c) 2012, Don Olmstead
- * 
+ * Copyright (c) 2012 Don Olmstead
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
@@ -25,22 +25,11 @@
  *   distribution.
  */
 
-/**
- * Represents the image used for the mouse pointer.
- */
-class Cursor
+class GameView
 {
-  /// The default cursor.
-  static final Cursor auto = const Cursor('auto');
+  GameView();
   
-  /// Path to the cursor's image.
-  final String _source;
+  void initialize() { }
   
-  /**
-   * Initializes a new instance of the [Cursor] class from the specified [source].
-   */
-  const Cursor(String this._source);
-  
-  /// Path to the cursor's image.
-  String get source => _source;
+  void update() { }
 }

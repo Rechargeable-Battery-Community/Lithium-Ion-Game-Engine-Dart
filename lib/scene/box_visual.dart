@@ -1,0 +1,5 @@
+
+class BoxVisual extends Visual
+{
+  
+}

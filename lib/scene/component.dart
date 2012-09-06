@@ -1,10 +1,10 @@
 /**
- * Lithium-Ion Game Engine
+ * \file components.dart
  *
- * ---------------------------------------------------------------------
+ * \section COPYRIGHT
  *
- * Copyright (c) 2012, Don Olmstead
- * 
+ * Copyright (c) 2012 Don Olmstead
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
@@ -26,21 +26,32 @@
  */
 
 /**
- * Represents the image used for the mouse pointer.
+ * 
  */
-class Cursor
+class Component
 {
-  /// The default cursor.
-  static final Cursor auto = const Cursor('auto');
-  
-  /// Path to the cursor's image.
-  final String _source;
+  /// The [GameEntity] the [Component] is associated to.
+  GameEntity _entity;
   
   /**
-   * Initializes a new instance of the [Cursor] class from the specified [source].
+   * Creates an instance of the [Component] class.
    */
-  const Cursor(String this._source);
+  Component()
+    : _entity = null;
   
-  /// Path to the cursor's image.
-  String get source => _source;
+  /**
+   * The [GameEntity] associated with this [Component].
+   */
+  GameEntity get entity => _entity;
+  
+  /**
+   * Sets the [GameEntity] associated with this [Component].
+   *
+   * A [Component] can only be associated with a single
+   * [GameEntity].
+   */
+  void _setEntity(GameEntity value)
+  {
+    _entity = value;
+  }
 }

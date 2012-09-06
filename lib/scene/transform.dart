@@ -1,10 +1,10 @@
 /**
- * Lithium-Ion Game Engine
+ * \file entity.dart
  *
- * ---------------------------------------------------------------------
+ * \section COPYRIGHT
  *
- * Copyright (c) 2012, Don Olmstead
- * 
+ * Copyright (c) 2012 Don Olmstead
+ *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
  * arising from the use of this software.
@@ -25,22 +25,23 @@
  *   distribution.
  */
 
-/**
- * Represents the image used for the mouse pointer.
- */
-class Cursor
+class Transform
 {
-  /// The default cursor.
-  static final Cursor auto = const Cursor('auto');
+  TransformGraph _transformGraph;
+  int _transformNode;
+  mat4 _tempMatrix;
   
-  /// Path to the cursor's image.
-  final String _source;
+  Transform(TransformGraph transformGraph)
+  {
+    _transformGraph = transformGraph;    
+    _transformNode = _transformGraph.createNode();
+    _tempMatrix = new mat4();
+  }
   
-  /**
-   * Initializes a new instance of the [Cursor] class from the specified [source].
-   */
-  const Cursor(String this._source);
-  
-  /// Path to the cursor's image.
-  String get source => _source;
+  set position(vec3 value)
+  {
+    _transformGraph.getWorldMatrix(_transformNode, _tempMatrix);
+    _tempMatrix.setTranslation(value);
+    _transformGraph.setLocalMatrix(_transformNode, _tempMatrix);
+  }
 }

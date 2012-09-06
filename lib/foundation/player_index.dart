@@ -26,21 +26,23 @@
  */
 
 /**
- * Represents the image used for the mouse pointer.
+ * Specifies the game pad associated with a player.
  */
-class Cursor
+class PlayerIndex
 {
-  /// The default cursor.
-  static final Cursor auto = const Cursor('auto');
+  /// The first player.
+  static final PlayerIndex One = const PlayerIndex(0);
+  /// The second player.
+  static final PlayerIndex Two = const PlayerIndex(1);
+  /// The third player.
+  static final PlayerIndex Three = const PlayerIndex(2);
+  /// The fourth player.
+  static final PlayerIndex Four = const PlayerIndex(3);
+  /// The number of enumerations.
+  static final PlayerIndex Size = const PlayerIndex(4);
   
-  /// Path to the cursor's image.
-  final String _source;
+  final int value;
   
-  /**
-   * Initializes a new instance of the [Cursor] class from the specified [source].
-   */
-  const Cursor(String this._source);
-  
-  /// Path to the cursor's image.
-  String get source => _source;
-}
+  const PlayerIndex(int this.value);
+
+} // end class PlayerIndex

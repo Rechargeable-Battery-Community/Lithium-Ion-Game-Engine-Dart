@@ -29,7 +29,9 @@
 
 #import('dart:html');
 #import('dart:json');
-#import('../external/Spectre/Spectre.dart');
+#import('../external/Spectre/lib/spectre.dart');
+#import('../external/Spectre/lib/spectre_scene.dart');
+#import('../external/Spectre/external/DartVectorMath/lib/vector_math_html.dart');
 
 //---------------------------------------------------------------------
 // Foundation library
@@ -37,6 +39,8 @@
 
 #source('foundation/iclonable.dart');
 #source('foundation/idisposable.dart');
+#source('foundation/player_index.dart');
+#source('foundation/service_locator.dart');
 
 //---------------------------------------------------------------------
 // Application library
@@ -44,10 +48,13 @@
 
 #source('application/game.dart');
 #source('application/game_settings.dart');
+#source('application/game_view.dart');
 #source('application/game_window.dart');
 
 #source('input/button_state.dart');
 #source('input/cursor.dart');
+#source('input/game_pad.dart');
+#source('input/game_pad_state.dart');
 #source('input/keyboard.dart');
 #source('input/keyboard_state.dart');
 #source('input/keys.dart');
@@ -55,6 +62,16 @@
 #source('input/mouse.dart');
 #source('input/mouse_buttons.dart');
 #source('input/mouse_state.dart');
+
+//---------------------------------------------------------------------
+// Scene library
+//---------------------------------------------------------------------
+
+#source('scene/box_visual.dart');
+#source('scene/component.dart');
+#source('scene/entity.dart');
+#source('scene/transform.dart');
+#source('scene/visual.dart');
 
 //---------------------------------------------------------------------
 // Library initialization
